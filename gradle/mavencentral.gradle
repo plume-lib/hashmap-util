@@ -1,0 +1,102 @@
+// REQUIREMENTS to make a release:
+//  * Perform work on a machine connected to the CSE filesystem.
+//  * Your ~/.gradle/gradle.properties file must contain:
+//     ossrhUsername=YOUR_USER_NAME_HERE
+//     ossrhPassword=YOUR_PASSWORD_HERE
+
+// To make a release:
+//  * Use JDK 11
+//  * git pull
+//  * In ../build.gradle, ensure that "To use a snapshot version" is not enabled.
+//  * Update the version number in ../README.md and in this file (multiple times in each).
+//    Ensure the version number in this file does not contain "-SNAPSHOT".
+//  * Update ../CHANGELOG.md .
+//  * Save files and stage changes.
+//  * Run in the top-level directory:
+//      ./gradlew clean publish && ./gradlew javadocWeb
+//    or, to use a locally-built Checker Framework:
+//      ./gradlew -PcfLocal clean publish && ./gradlew -PcfLocal javadocWeb
+//  * Browse to https://oss.sonatype.org/#stagingRepositories, complete the Maven Central release.
+//  * Add a git tag:
+//    VER=0.0.1 && git commit -m "Version $VER" && git push && git tag -a v$VER -m "Version $VER" && git push && git push --tags
+//  * Make a GitHub release. Go to the GitHub releases page, make a release, call it "hashmap-util 0.0.1", use the text from ../CHANGELOG.md as the description, attach the .jar file from ../build/libs/
+
+
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
+group 'org.plumelib'
+version '0.0.1'
+
+final isSnapshot = version.contains('SNAPSHOT')
+
+java {
+  withJavadocJar()
+  withSourcesJar()
+}
+
+artifacts {
+  archives javadocJar, sourcesJar
+}
+
+publishing {
+  publications {
+    maven(MavenPublication) {
+      from components.java
+
+      pom {
+        name = 'Plume-lib Util'
+        description = 'Utility libraries for Java.'
+        url = 'https://github.com/plume-lib/hashmap-util'
+
+        scm {
+          connection = 'scm:git:git@github.com:plume-lib/hashmap-util.git'
+          developerConnection = 'scm:git:git@github.com:plume-lib/hashmap-util.git'
+          url = 'git@github.com:plume-lib/hashmap-util.git'
+        }
+
+        licenses {
+          license {
+            name = 'MIT License'
+            url = 'https://opensource.org/licenses/MIT'
+          }
+        }
+
+        developers {
+          developer {
+            id = 'mernst'
+            name = 'Michael Ernst'
+            email = 'mernst@alum.mit.edu'
+          }
+        }
+      }
+    }
+  }
+  repositories {
+    repositories {
+      maven {
+        url = (isSnapshot
+            ? project.properties.getOrDefault('SNAPSHOT_REPOSITORY_URL', 'https://oss.sonatype.org/content/repositories/snapshots/')
+            : project.properties.getOrDefault('RELEASE_REPOSITORY_URL', 'https://oss.sonatype.org/service/local/staging/deploy/maven2/')
+            )
+        credentials {
+          username = project.properties.get('ossrhUsername')
+          password = project.properties.get('ossrhPassword')
+        }
+      }
+    }
+  }
+}
+
+signing {
+  // If anything about signing is misconfigured, fail loudly rather than quietly continuing with
+  // unsigned artifacts.
+  required = true
+  sign publishing.publications.maven
+}
+
+tasks.withType(Sign).configureEach {
+  onlyIf {
+    !isSnapshot
+  }
+}
