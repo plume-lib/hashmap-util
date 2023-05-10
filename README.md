@@ -11,8 +11,8 @@ In a Gradle buildfile, write
 
 ```
 dependencies {
-  implementation 'org.plumelib:hashmap-util:1.0.0'
+  implementation 'org.plumelib:hashmap-util:0.0.1'
 }
 ```
 
-Other build systems are [similar](https://search.maven.org/artifact/org.plumelib/hashmap-util/1.0.0/jar).
+Other build systems are [similar](https://search.maven.org/artifact/org.plumelib/hashmap-util/0.0.1/jar).
