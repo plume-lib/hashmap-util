@@ -20,7 +20,7 @@ repositories {
   maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
 }
 
-ext.errorproneVersion = '2.18.0'
+ext.errorproneVersion = '2.19.1'
 
 dependencies {
   testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.3'
