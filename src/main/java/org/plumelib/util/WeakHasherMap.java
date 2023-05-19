@@ -21,10 +21,10 @@ import org.checkerframework.dataflow.qual.SideEffectFree;
 // various package-visible implementation details of java.util.
 /**
  * This is a modified version of {@link java.util.WeakHashMap} from JDK 1.2.2, that adds a
- * constructor that takes a Hasher argument. I also replaced uses of hashCode() and equals() by uses
- * of Hasher, where appropriate. I've changed the name so that this version is not used
- * accidentally. It is slightly less efficient, in the absence of a Hasher, and has not been as
- * extensively tested.
+ * constructor that takes a {@link Hasher} argument. I also replaced uses of {@code hashCode()} and
+ * {@code equals()} by uses of {@link Hasher}, where appropriate. I've changed the name so that this
+ * version is not used accidentally. It is slightly less efficient, in the absence of a {@link
+ * Hasher}, and has not been as extensively tested.
  *
  * <p>The original documentation follows.
  *

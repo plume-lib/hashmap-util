@@ -27,8 +27,8 @@ import org.checkerframework.dataflow.qual.SideEffectFree;
  * differs from the original in two ways:
  *
  * <ul>
- *   <li>uses of hashCode() are replaced by System.identityHashCode()
- *   <li>uses of object equality (.equals) are replaced by identity checks (==)
+ *   <li>uses of {@code hashCode()} are replaced by {@code System.identityHashCode()}
+ *   <li>uses of object equality ({@code .equals()}) are replaced by identity checks ({@code ==})
  * </ul>
  *
  * See {@link java.util.IdentityHashMap} for more information on the changes made in an identity
@@ -949,7 +949,7 @@ public class WeakIdentityHashMap<K, V> extends AbstractMap<K, V> implements Map<
   }
 
   /** Version copied from Abstract Map because it is not public. */
-  static class OurSimpleEntry<K, V> implements Map.Entry<K, V> {
+  private static class OurSimpleEntry<K, V> implements Map.Entry<K, V> {
     K key;
     V value;
 

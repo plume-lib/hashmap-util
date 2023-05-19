@@ -1,9 +1,9 @@
 package org.plumelib.util;
 
 /**
- * Hasher is intended to work like Comparable: it is an optional argument to a hashing data
- * structure (such as a HashSet, HashMap, or WeakHashMap) which specifies the hashCode() and
- * equals() methods.
+ * {@code Hasher} is intended to work like {@code Comparable}: it is an optional argument to a
+ * hashing data structure (such as some implementations of {@code HashSet}, {@code HashMap}, or
+ * {@code WeakHashMap}) which specifies the {@code hashCode()} and {@code equals()} methods.
  *
  * <p>If no Hasher is provided, then clients should act as if the following Hasher were provided:
  *
