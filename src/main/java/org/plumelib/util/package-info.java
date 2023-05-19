@@ -3,6 +3,10 @@
  *
  * <h2>Plume-lib HashMap Util: Utility libraries for Java HashMaps</h2>
  *
+ * <p>Note that <a
+ * href="http://plumelib.org/plume-util/api/org/plumelib/util/package-summary.html#package.description">Plume
+ * Util</a> defines other classes in the <code>org.plumelib.util</code> package.
+ *
  * <h3 id="Collections_and_iterators">Collections and iterators</h3>
  *
  * <dl>
@@ -18,4 +22,4 @@
  *       System.identityHashCode() rather than the object's hash code.
  * </dl>
  */
-package org.plumelib.util.hashmap;
+package org.plumelib.util;
