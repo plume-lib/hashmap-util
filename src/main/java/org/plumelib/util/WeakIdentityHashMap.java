@@ -97,6 +97,9 @@ import org.checkerframework.dataflow.qual.SideEffectFree;
  * href="https://docs.oracle.com/javase/8/docs/technotes/guides/collections/overview.html">Java
  * Collections Framework</a>.
  *
+ * @param <K> the type of map keys
+ * @param <V> the type of map values
+ *
  * @version 1.30, 02/19/04
  * @author Doug Lea
  * @author Josh Bloch
@@ -468,8 +471,6 @@ public class WeakIdentityHashMap<K, V> extends AbstractMap<K, V> implements Map<
   /**
    * Copies all of the mappings from the specified map to this map These mappings will replace any
    * mappings that this map had for any of the keys currently in the specified map.
-   *
-   * <p>
    *
    * @param m mappings to be stored in this map
    * @throws NullPointerException if the specified map is null
