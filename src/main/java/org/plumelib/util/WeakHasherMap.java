@@ -393,6 +393,7 @@ public final class WeakHasherMap<K, V> extends AbstractMap<K, V> implements Map<
   private final class Entry<K, V> implements Map.Entry<K, V> {
     /** ent. */
     private Map.Entry<WeakKey, V> ent;
+
     /** key. */
     private K key; /* Strong reference to key, so that the GC
 				   will leave it alone as long as this Entry
