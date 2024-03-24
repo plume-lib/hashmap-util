@@ -210,6 +210,7 @@ public class WeakIdentityHashMap<K, V> extends AbstractMap<K, V> implements Map<
    * @throws NullPointerException if the specified map is null
    * @since 1.3
    */
+  @SuppressWarnings("this-escape") // call to putAll doesn't leak `this`
   public WeakIdentityHashMap(Map<? extends K, ? extends V> t) {
     this(Math.max((int) (t.size() / DEFAULT_LOAD_FACTOR) + 1, 16), DEFAULT_LOAD_FACTOR);
     putAll(t);
