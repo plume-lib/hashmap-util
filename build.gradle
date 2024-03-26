@@ -16,11 +16,16 @@ plugins {
 }
 
 repositories {
+  mavenLocal()
   mavenCentral()
   maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
 }
 
+ext.errorproneVersion = '2.26.1'
+
 dependencies {
+  compileOnly "com.google.errorprone:error_prone_annotations:${errorproneVersion}"
+
   testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.2'
   testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 }
@@ -28,8 +33,10 @@ dependencies {
 // To upload to Maven Central, see instructions in the file.
 apply from: "${buildscript.sourceFile.parent}/gradle/mavencentral.gradle"
 
-sourceCompatibility = 11
-targetCompatibility = 11
+java {
+  sourceCompatibility = JavaVersion.VERSION_11
+  targetCompatibility = JavaVersion.VERSION_11
+}
 
 test {
   useJUnitPlatform {
@@ -70,17 +77,16 @@ spotless {
 /// Error Prone linter
 
 dependencies {
-  errorprone('com.google.errorprone:error_prone_core:2.26.1')
+  errorprone("com.google.errorprone:error_prone_core:${errorproneVersion}")
 }
 tasks.withType(JavaCompile).configureEach {
   // "-processing" avoids javac warning "No processor claimed any of these annotations".
   // "-options" is because starting in JDK 20, javac warns about using -source 8.
   options.compilerArgs << '-Xlint:all,-processing,-options' << '-Werror'
   options.errorprone {
-    // Recommends @InlineMe, which isn't in the error_prone_annotations jar file.  An `implementation`
-    // dependency on the error_prone_core jar file breaks javac in clients of hashmap-util.
-    disable("InlineMeSuggester")
     disable('ExtendsObject')  // Incorrect when using the Checker Framework
+    disable('ReferenceEquality') // Use Interning Checker instead.
+    disable('AnnotateFormatMethod') // Error Prone doesn't know about Checker Framework @FormatMethod
     // Code copied from the JDK that we don't want to change gratuitously.
     excludedPaths = '.*/Weak.*Hash(er)?Map.java'
   }
@@ -109,8 +115,6 @@ checkerFramework {
   ]
   extraJavacArgs = [
     '-Werror',
-    // '-Aversion',
-    // '-verbose',
     '-AcheckPurityAnnotations',
     '-ArequirePrefixInWarningSuppressions',
     '-AwarnRedundantAnnotations',
@@ -120,7 +124,7 @@ checkerFramework {
 // To use a snapshot version of the Checker Framework.
 if (false) {
   // TODO: Change the above test to false when CF is released.
-  ext.checkerFrameworkVersion = '3.42.0'
+  ext.checkerFrameworkVersion = '3.43.0-SNAPSHOT'
   dependencies {
     compileOnly "org.checkerframework:checker-qual:${checkerFrameworkVersion}"
     testCompileOnly "org.checkerframework:checker-qual:${checkerFrameworkVersion}"
@@ -144,15 +148,8 @@ if (project.hasProperty('cfLocal')) {
 
 // Turn Javadoc warnings into errors.
 javadoc {
-  options.addStringOption('private', '-quiet')
-  // WeakIdentityHashMap leads to lots of Javadoc warnings due to missing Javadoc.
-  // However, this:
-  //   exclude '**/WeakIdentityHashMap.java'
-  // leads to no HTML API documentation being produced!
-  // How can I generate Javadoc for it while still being strict for all other files?
-  // For now, comment out -Xdoclint:all.
-  // options.addStringOption('Xwerror', '-Xdoclint:all')
   options.addStringOption('Xwerror', '-Xdoclint:none')
+  options.addStringOption('private', '-quiet')
   options.addStringOption('source', '11')
   doLast {
     ant.replaceregexp(match:"@import url\\('resources/fonts/dejavu.css'\\);\\s*", replace:'',
@@ -191,7 +188,9 @@ dependencies {
   requireJavadoc 'org.plumelib:require-javadoc:1.0.6'
 }
 task requireJavadoc(type: JavaExec) {
+  group = 'Documentation'
   description = 'Ensures that Javadoc documentation exists.'
+  inputs.files jar.getArchiveFile()
   mainClass = 'org.plumelib.javadoc.RequireJavadoc'
   classpath = configurations.requireJavadoc
   args 'src/main/java', '--dont-require=WeakHasherMap|WeakIdentityHashMap'
@@ -207,12 +206,15 @@ task tags(type: Exec) {
   commandLine 'bash', '-c', "find src/ -name '*.java' | sort | xargs etags"
 }
 
-/// Determine classpath
 
-task printTestCompileClasspath {
-  description = 'Print the compile-time test classpath'
+/// Debugging support
+
+task printCompileClasspaths {
+  description 'Print the compile-time classpaths'
   doFirst {
     println 'Compile classpath:'
+    println sourceSets.main.compileClasspath.asPath
+    println 'Compile test classpath:'
     println sourceSets.test.compileClasspath.asPath
   }
 }
