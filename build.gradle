@@ -74,7 +74,7 @@ spotless {
   }
 }
 
-/// Error Prone linter
+// Error Prone linter
 
 dependencies {
   errorprone("com.google.errorprone:error_prone_core:${errorproneVersion}")
@@ -94,7 +94,7 @@ tasks.withType(JavaCompile).configureEach {
   options.release = 11
 }
 
-/// Checker Framework pluggable type-checking
+// Checker Framework pluggable type-checking
 
 apply plugin: 'org.checkerframework'
 
@@ -144,7 +144,7 @@ if (project.hasProperty('cfLocal')) {
   }
 }
 
-/// Javadoc
+// Javadoc
 
 // Turn Javadoc warnings into errors.
 javadoc {
@@ -198,7 +198,7 @@ task requireJavadoc(type: JavaExec) {
 check.dependsOn requireJavadoc
 javadocWeb.dependsOn requireJavadoc
 
-/// Emacs support
+// Emacs support
 
 /* Make Emacs TAGS table */
 task tags(type: Exec) {
@@ -207,7 +207,7 @@ task tags(type: Exec) {
 }
 
 
-/// Debugging support
+// Debugging support
 
 task printCompileClasspaths {
   description 'Print the compile-time classpaths'
