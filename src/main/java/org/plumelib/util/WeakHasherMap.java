@@ -28,54 +28,52 @@ import org.checkerframework.dataflow.qual.SideEffectFree;
  *
  * <p>The original documentation follows.
  *
- * <p>A hashtable-based <code>Map</code> implementation with <em>weak keys</em>. An entry in a
- * <code>WeakHashMap</code> will automatically be removed when its key is no longer in ordinary use.
- * More precisely, the presence of a mapping for a given key will not prevent the key from being
+ * <p>A hashtable-based {@code Map} implementation with <em>weak keys</em>. An entry in a {@code
+ * WeakHashMap} will automatically be removed when its key is no longer in ordinary use. More
+ * precisely, the presence of a mapping for a given key will not prevent the key from being
  * discarded by the garbage collector, that is, made finalizable, finalized, and then reclaimed.
  * When a key has been discarded its entry is effectively removed from the map, so this class
- * behaves somewhat differently than other <code>Map</code> implementations.
+ * behaves somewhat differently than other {@code Map} implementations.
  *
  * <p>Both null values and the null key are supported. This class has performance characteristics
- * similar to those of the <code>HashMap</code> class, and has the same efficiency parameters of
+ * similar to those of the {@code HashMap} class, and has the same efficiency parameters of
  * <em>initial capacity</em> and <em>load factor</em>.
  *
- * <p>Like most collection classes, this class is not synchronized. A synchronized <code>WeakHashMap
- * </code> may be constructed using the <code>Collections.synchronizedMap</code> method.
+ * <p>Like most collection classes, this class is not synchronized. A synchronized {@code
+ * WeakHashMap} may be constructed using the {@code Collections.synchronizedMap} method.
  *
- * <p>This class is intended primarily for use with key objects whose <code>equals</code> methods
- * test for object identity using the <code>==</code> operator. Once such a key is discarded it can
- * never be recreated, so it is impossible to do a lookup of that key in a <code>WeakHashMap</code>
- * at some later time and be surprised that its entry has been removed. This class will work
- * perfectly well with key objects whose <code>equals</code> methods are not based upon object
- * identity, such as <code>String</code> instances. With such recreatable key objects, however, the
- * automatic removal of <code>WeakHashMap</code> entries whose keys have been discarded may prove to
- * be confusing.
+ * <p>This class is intended primarily for use with key objects whose {@code equals} methods test
+ * for object identity using the {@code ==} operator. Once such a key is discarded it can never be
+ * recreated, so it is impossible to do a lookup of that key in a {@code WeakHashMap} at some later
+ * time and be surprised that its entry has been removed. This class will work perfectly well with
+ * key objects whose {@code equals} methods are not based upon object identity, such as {@code
+ * String} instances. With such recreatable key objects, however, the automatic removal of {@code
+ * WeakHashMap} entries whose keys have been discarded may prove to be confusing.
  *
- * <p>The behavior of the <code>WeakHashMap</code> class depends in part upon the actions of the
- * garbage collector, so several familiar (though not required) <code>Map</code> invariants do not
- * hold for this class. Because the garbage collector may discard keys at any time, a <code>
- * WeakHashMap</code> may behave as though an unknown thread is silently removing entries. In
- * particular, even if you synchronize on a <code>WeakHashMap</code> instance and invoke none of its
- * mutator methods, it is possible for the <code>size</code> method to return smaller values over
- * time, for the <code>isEmpty</code> method to return <code>false</code> and then <code>true</code>
- * , for the <code>containsKey</code> method to return <code>true</code> and later <code>false
- * </code> for a given key, for the <code>get</code> method to return a value for a given key but
- * later return <code>null</code>, for the <code>put</code> method to return <code>null</code> and
- * the <code>remove</code> method to return <code>false</code> for a key that previously appeared to
- * be in the map, and for successive examinations of the key set, the value set, and the entry set
- * to yield successively smaller numbers of elements.
+ * <p>The behavior of the {@code WeakHashMap} class depends in part upon the actions of the garbage
+ * collector, so several familiar (though not required) {@code Map} invariants do not hold for this
+ * class. Because the garbage collector may discard keys at any time, a {@code WeakHashMap} may
+ * behave as though an unknown thread is silently removing entries. In particular, even if you
+ * synchronize on a {@code WeakHashMap} instance and invoke none of its mutator methods, it is
+ * possible for the {@code size} method to return smaller values over time, for the {@code isEmpty}
+ * method to return {@code false} and then {@code true}, for the {@code containsKey} method to
+ * return {@code true} and later {@code false} for a given key, for the {@code get} method to return
+ * a value for a given key but later return {@code null}, for the {@code put} method to return
+ * {@code null} and the {@code remove} method to return {@code false} for a key that previously
+ * appeared to be in the map, and for successive examinations of the key set, the value set, and the
+ * entry set to yield successively smaller numbers of elements.
  *
- * <p>Each key object in a <code>WeakHashMap</code> is stored indirectly as the referent of a weak
+ * <p>Each key object in a {@code WeakHashMap} is stored indirectly as the referent of a weak
  * reference. Therefore a key will automatically be removed only after the weak references to it,
  * both inside and outside of the map, have been cleared by the garbage collector.
  *
- * <p><strong>Implementation note:</strong> The value objects in a <code>WeakHashMap</code> are held
- * by ordinary strong references. Thus care should be taken to ensure that value objects do not
+ * <p><strong>Implementation note:</strong> The value objects in a {@code WeakHashMap} are held by
+ * ordinary strong references. Thus care should be taken to ensure that value objects do not
  * strongly refer to their own keys, either directly or indirectly, since that will prevent the keys
- * from being discarded. Note that a value object may refer indirectly to its key via the <code>
- * WeakHashMap</code> itself; that is, a value object may strongly refer to some other key object
- * whose associated value object, in turn, strongly refers to the key of the first value object.
- * This problem may be fixed in a future release.
+ * from being discarded. Note that a value object may refer indirectly to its key via the {@code
+ * WeakHashMap} itself; that is, a value object may strongly refer to some other key object whose
+ * associated value object, in turn, strongly refers to the key of the first value object. This
+ * problem may be fixed in a future release.
  *
  * @param <K> the type of the map keys
  * @param <V> the type of the map values
@@ -226,10 +224,10 @@ public final class WeakHasherMap<K, V> extends AbstractMap<K, V> implements Map<
     }
   }
 
-  /** Hash table mapping WeakKeys to values */
+  /** Hash table mapping WeakKeys to values. */
   private Map<WeakKey, V> hash;
 
-  /** Reference queue for cleared WeakKeys */
+  /** Reference queue for cleared WeakKeys. */
   private ReferenceQueue<? super K> queue = new ReferenceQueue<K>();
 
   /* Remove all invalidated entries from the map, that is, remove all entries
@@ -249,11 +247,11 @@ public final class WeakHasherMap<K, V> extends AbstractMap<K, V> implements Map<
   /* -- Constructors -- */
 
   /**
-   * Constructs a new, empty <code>WeakHashMap</code> with the given initial capacity and the given
-   * load factor.
+   * Constructs a new, empty {@code WeakHashMap} with the given initial capacity and the given load
+   * factor.
    *
-   * @param initialCapacity the initial capacity of the <code>WeakHashMap</code>
-   * @param loadFactor the load factor of the <code>WeakHashMap</code>
+   * @param initialCapacity the initial capacity of the {@code WeakHashMap}
+   * @param loadFactor the load factor of the {@code WeakHashMap}
    * @throws IllegalArgumentException If the initial capacity is less than zero, or if the load
    *     factor is nonpositive
    */
@@ -262,10 +260,10 @@ public final class WeakHasherMap<K, V> extends AbstractMap<K, V> implements Map<
   }
 
   /**
-   * Constructs a new, empty <code>WeakHashMap</code> with the given initial capacity and the
-   * default load factor, which is <code>0.75</code>.
+   * Constructs a new, empty {@code WeakHashMap} with the given initial capacity and the default
+   * load factor, which is {@code 0.75}.
    *
-   * @param initialCapacity the initial capacity of the <code>WeakHashMap</code>
+   * @param initialCapacity the initial capacity of the {@code WeakHashMap}
    * @throws IllegalArgumentException If the initial capacity is less than zero
    */
   public WeakHasherMap(int initialCapacity) {
@@ -273,17 +271,17 @@ public final class WeakHasherMap<K, V> extends AbstractMap<K, V> implements Map<
   }
 
   /**
-   * Constructs a new, empty <code>WeakHashMap</code> with the default capacity and the default load
-   * factor, which is <code>0.75</code>.
+   * Constructs a new, empty {@code WeakHashMap} with the default capacity and the default load
+   * factor, which is {@code 0.75}.
    */
   public WeakHasherMap() {
     hash = new HashMap<>();
   }
 
   /**
-   * Constructs a new, empty <code>WeakHashMap</code> with the default capacity and the default load
-   * factor, which is <code>0.75</code>. The <code>WeakHashMap</code> uses the specified hasher for
-   * hashing keys and comparing them for equality.
+   * Constructs a new, empty {@code WeakHashMap} with the default capacity and the default load
+   * factor, which is {@code 0.75}. The {@code WeakHashMap} uses the specified hasher for hashing
+   * keys and comparing them for equality.
    *
    * @param h the Hasher to use when hashing values for this map
    */
@@ -296,7 +294,7 @@ public final class WeakHasherMap<K, V> extends AbstractMap<K, V> implements Map<
 
   /**
    * Returns the number of key-value mappings in this map. <strong>Note:</strong> <em>In contrast to
-   * most implementations of the <code>Map</code> interface, the time required by this operation is
+   * most implementations of the {@code Map} interface, the time required by this operation is
    * linear in the size of the map.</em>
    */
   @Pure
@@ -305,7 +303,7 @@ public final class WeakHasherMap<K, V> extends AbstractMap<K, V> implements Map<
     return entrySet().size();
   }
 
-  /** Returns <code>true</code> if this map contains no key-value mappings. */
+  /** Returns {@code true} if this map contains no key-value mappings. */
   @Pure
   @Override
   public boolean isEmpty() {
@@ -313,7 +311,7 @@ public final class WeakHasherMap<K, V> extends AbstractMap<K, V> implements Map<
   }
 
   /**
-   * Returns <code>true</code> if this map contains a mapping for the specified key.
+   * Returns {@code true} if this map contains a mapping for the specified key.
    *
    * @param key the key whose presence in this map is to be tested
    */
@@ -328,8 +326,8 @@ public final class WeakHasherMap<K, V> extends AbstractMap<K, V> implements Map<
   /* -- Lookup and modification operations -- */
 
   /**
-   * Returns the value to which this map maps the specified <code>key</code>. If this map does not
-   * contain a value for this key, then return <code>null</code>.
+   * Returns the value to which this map maps the specified {@code key}. If this map does not
+   * contain a value for this key, then return {@code null}.
    *
    * @param key the key whose associated value, if any, is to be returned
    */
@@ -343,14 +341,14 @@ public final class WeakHasherMap<K, V> extends AbstractMap<K, V> implements Map<
   }
 
   /**
-   * Updates this map so that the given <code>key</code> maps to the given <code>value</code>. If
-   * the map previously contained a mapping for <code>key</code> then that mapping is replaced and
-   * the previous value is returned.
+   * Updates this map so that the given {@code key} maps to the given {@code value}. If the map
+   * previously contained a mapping for {@code key} then that mapping is replaced and the previous
+   * value is returned.
    *
-   * @param key the key that is to be mapped to the given <code>value</code>
-   * @param value the value to which the given <code>key</code> is to be mapped
-   * @return the previous value to which this key was mapped, or <code>null</code> if if there was
-   *     no mapping for the key
+   * @param key the key that is to be mapped to the given {@code value}
+   * @param value the value to which the given {@code key} is to be mapped
+   * @return the previous value to which this key was mapped, or {@code null} if if there was no
+   *     mapping for the key
    */
   @Override
   public V put(K key, V value) {
@@ -359,11 +357,11 @@ public final class WeakHasherMap<K, V> extends AbstractMap<K, V> implements Map<
   }
 
   /**
-   * Removes the mapping for the given <code>key</code> from this map, if present.
+   * Removes the mapping for the given {@code key} from this map, if present.
    *
    * @param key the key whose mapping is to be removed
-   * @return the value to which this key was mapped, or <code>null</code> if there was no mapping
-   *     for the key
+   * @return the value to which this key was mapped, or {@code null} if there was no mapping for the
+   *     key
    */
   @Override
   public V remove(Object key) { // type of argument is Object, not K
@@ -383,7 +381,7 @@ public final class WeakHasherMap<K, V> extends AbstractMap<K, V> implements Map<
   /* -- Views -- */
 
   /**
-   * Internal class for entries
+   * Internal class for entries.
    *
    * @param <K> the type of the entry keys
    * @param <V> the type of the entry values
@@ -474,7 +472,7 @@ public final class WeakHasherMap<K, V> extends AbstractMap<K, V> implements Map<
     }
   }
 
-  /** Internal class for entry sets */
+  /** Internal class for entry sets. */
   private final class EntrySet extends AbstractSet<Map.Entry<K, V>> {
     /** hashEntrySet. */
     Set<Map.Entry<WeakKey, V>> hashEntrySet = hash.entrySet();
@@ -568,7 +566,7 @@ public final class WeakHasherMap<K, V> extends AbstractMap<K, V> implements Map<
   /** entrySet. */
   private @Nullable Set<Map.Entry<K, V>> entrySet = null;
 
-  /** Returns a <code>Set</code> view of the mappings in this map. */
+  /** Returns a {@code Set} view of the mappings in this map. */
   @SideEffectFree
   @Override
   public Set<Map.Entry<K, V>> entrySet() {
