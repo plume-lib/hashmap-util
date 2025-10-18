@@ -1,18 +1,18 @@
 plugins {
-  id "java-library"
+  id("java-library")
 
   // To create a fat jar build/libs/...-all.jar, run: ./gradlew shadowJar
-  id "com.gradleup.shadow" version "9.2.2"
+  id("com.gradleup.shadow").version("9.2.2")
 
   // Code formatting; defines targets "spotlessApply" and "spotlessCheck"
   // Requires JDK 11 or higher; the plugin crashes under JDK 8.
-  id "com.diffplug.spotless" version "8.0.0"
+  id("com.diffplug.spotless").version("8.0.0")
 
   // Error Prone linter
-  id("net.ltgt.errorprone") version "4.3.0"
+  id("net.ltgt.errorprone").version("4.3.0")
 
   // Checker Framework pluggable type-checking
-  id "org.checkerframework" version "0.6.60"
+  id("org.checkerframework").version("0.6.60")
 }
 
 repositories {
@@ -59,7 +59,7 @@ test {
 spotless {
   format "misc", {
     // define the files to apply `misc` to
-    target "*.md", ".gitignore"
+    target("*.md", ".gitignore")
 
     // define the steps to apply to those files
     trimTrailingWhitespace()
@@ -74,7 +74,7 @@ spotless {
     formatAnnotations()
   }
   groovyGradle {
-    target "**/*.gradle"
+    target("**/*.gradle")
     greclipse()  // which formatter Spotless should use to format .gradle files.
     leadingTabsToSpaces(2)
     trimTrailingWhitespace()
