@@ -112,6 +112,8 @@ import org.checkerframework.dataflow.qual.SideEffectFree;
   // Java compiler warnings
   "unchecked",
   "rawtypes",
+  // PMD warnings
+  "PMD",
   // Checker Framework warnings
   "allcheckers" // old, non-typesafe Sun code, not worth annotating or checking
 }) // old, non-typesafe Sun code, not worth annotating or checking

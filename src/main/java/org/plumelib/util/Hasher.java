@@ -33,5 +33,6 @@ public interface Hasher {
    * @param o2 the second value to test for equality
    * @return true if o1 equals o2
    */
+  @SuppressWarnings("PMD.SuspiciousEqualsMethodName")
   boolean equals(Object o1, Object o2);
 }
