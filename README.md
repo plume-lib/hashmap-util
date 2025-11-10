@@ -11,7 +11,7 @@ In a Gradle buildfile, write
 
 ```gradle
 dependencies {
-  implementation 'org.plumelib:hashmap-util:1.0.0'
+  implementation("org.plumelib:hashmap-util:1.0.0")
 }
 ```
 
