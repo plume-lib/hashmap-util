@@ -297,19 +297,6 @@ mavenPublishing {
 }
 
 
-
-// Git hooks
-
-tasks.register("installGitHooks", Copy) {
-  description = "Copies git hooks to .git directory"
-  from("githooks")
-  into(".git/hooks")
-}
-
-tasks.withType(JavaCompile) {
-  dependsOn(":installGitHooks")
-}
-
 // Emacs support
 
 /* Make Emacs TAGS table */
