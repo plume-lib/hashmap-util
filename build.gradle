@@ -16,6 +16,9 @@ plugins {
 
   // Checker Framework pluggable type-checking
   id("org.checkerframework").version("0.6.61")
+
+  // Publishing to Maven Central.
+  id("com.vanniktech.maven.publish").version("0.34.0")
 }
 
 repositories {
@@ -36,9 +39,6 @@ dependencies {
   testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
-// To upload to Maven Central, see instructions in the file.
-apply from: "${buildscript.sourceFile.parent}/gradle/mavencentral.gradle"
-
 java {
   sourceCompatibility = JavaVersion.VERSION_11
   targetCompatibility = JavaVersion.VERSION_11
@@ -49,7 +49,6 @@ test {
     includeEngines("junit-jupiter")
     excludeEngines("junit-vintage")
   }
-
 
   testLogging {
     outputs.upToDateWhen{false}
@@ -106,9 +105,11 @@ if (isJava21orHigher) {
   }
   tasks.withType(JavaCompile).configureEach {
     options.errorprone {
+      disable("AnnotateFormatMethod") // Error Prone doesn't know about Checker Framework @FormatMethod.
+      disable("DoNotCallSuggester") // Suggests use of an Error Prone annotation.
       disable("ExtendsObject")  // Incorrect when using the Checker Framework.
+      disable("InlineMeSuggester") // Using `@InlineMe` requires clients to declare a dependency on error_prone_annotations.
       disable("ReferenceEquality") // Use Interning Checker instead.
-      disable("AnnotateFormatMethod") // Error Prone doesn't know about Checker Framework @FormatMethod
       // Code copied from the JDK that we don't want to change gratuitously.
       excludedPaths = ".*/Weak.*Hash(er)?Map.java"
     }
@@ -199,6 +200,9 @@ check.dependsOn(javadoc)
 
 tasks.register("javadocWeb", Javadoc) {
   description = "Upload API documentation to website."
+  dependsOn(javadocWebUpload, javadocWebChgrp, javadocWebChmod)
+}
+tasks.register("javadocWebUpload", Javadoc) {
   source = sourceSets.main.allJava
   destinationDir = file("/cse/web/research/plumelib/${project.name}/api")
   classpath = project.sourceSets.main.compileClasspath
@@ -208,15 +212,20 @@ tasks.register("javadocWeb", Javadoc) {
     flags:"g", byline:true) {
       fileset(dir: destinationDir)
     }
-    // Set permissions
-    project.exec {
-      commandLine("chgrp", "-R",  "plse_www", "/cse/web/research/plumelib/${project.name}/api")
-    }
-    project.exec {
-      commandLine("chmod", "-R",  "g+w", "/cse/web/research/plumelib/${project.name}/api")
-    }
   }
 }
+// Set permissions
+tasks.register("javadocWebChgrp", Exec) {
+  commandLine("chgrp", "-R",  "plse_www", "/cse/web/research/plumelib/${project.name}/api")
+  ignoreExitValue = true
+}
+javadocWebChgrp.mustRunAfter("javadocWebUpload")
+tasks.register("javadocWebChmod", Exec) {
+  commandLine("chmod", "-R",  "g+w", "/cse/web/research/plumelib/${project.name}/api")
+  ignoreExitValue = true
+}
+javadocWebChmod.mustRunAfter("javadocWebUpload")
+
 
 configurations {
   requireJavadoc
@@ -244,6 +253,62 @@ tasks.register("requireJavadoc", JavaExec) {
 }
 check.dependsOn(requireJavadoc)
 javadocWeb.dependsOn(requireJavadoc)
+
+
+// Publishing
+
+// To upload to Maven Central:
+// * ./gradlew publishToMavenCentral
+// * browse to https://central.sonatype.com/publishing/deployments
+
+ext {
+  packageName = "hashmap-util"
+}
+
+mavenPublishing {
+  coordinates("org.plumelib", "${packageName}", "1.0.0")
+
+  pom {
+    name = "HashMap Util"
+    description = "HashMap utility libraries for Java."
+    url = "https://github.com/plume-lib/${packageName}"
+
+    scm {
+      url = "https://github.com/plume-lib/${packageName}/"
+      connection = "scm:git:git://github.com/plume-lib/${packageName}.git"
+      developerConnection = "scm:git:ssh://git@github.com/plume-lib/${packageName}.git"
+    }
+
+    licenses {
+      license {
+        name = "MIT License"
+        url = "https://opensource.org/licenses/MIT"
+      }
+    }
+
+    developers {
+      developer {
+        id = "mernst"
+        name = "Michael Ernst"
+        email = "mernst@alum.mit.edu"
+      }
+    }
+  }
+}
+
+
+
+// Git hooks
+
+tasks.register("installGitHooks", Copy) {
+  description = "Copies git hooks to .git directory"
+  from("githooks")
+  into(".git/hooks")
+}
+
+tasks.withType(JavaCompile) {
+  dependsOn(":installGitHooks")
+}
 
 // Emacs support
 
