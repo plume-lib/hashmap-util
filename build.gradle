@@ -267,12 +267,12 @@ mavenPublishing {
   pom {
     name = "HashMap Util"
     description = "HashMap utility libraries for Java."
-    url = "https://github.com/plume-lib/${packageName}"
+    url = "https://github.com/plume-lib/${project.packageName}"
 
     scm {
-      url = "https://github.com/plume-lib/${packageName}/"
-      connection = "scm:git:git://github.com/plume-lib/${packageName}.git"
-      developerConnection = "scm:git:ssh://git@github.com/plume-lib/${packageName}.git"
+      url = "https://github.com/plume-lib/${project.packageName}/"
+      connection = "scm:git:git://github.com/plume-lib/${project.packageName}.git"
+      developerConnection = "scm:git:ssh://git@github.com/plume-lib/${project.packageName}.git"
     }
 
     licenses {
