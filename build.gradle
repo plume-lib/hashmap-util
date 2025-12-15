@@ -260,7 +260,7 @@ def requireJavadoc = tasks.register("requireJavadoc", JavaExec) {
   mainClass = "org.plumelib.javadoc.RequireJavadoc"
   classpath = configurations.requireJavadoc
   args(*sourceSets.main.allJava.srcDirs.collect{it.getAbsolutePath()},
-       "--dont-require=WeakHasherMap|WeakIdentityHashMap")
+  "--dont-require=WeakHasherMap|WeakIdentityHashMap")
   jvmArgs += [
     "--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
     "--add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED",
