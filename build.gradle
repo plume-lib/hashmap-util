@@ -200,9 +200,12 @@ if (project.hasProperty("cfLocal")) {
 
 // Javadoc
 
-// Turn Javadoc warnings into errors.
+tasks.withType(Javadoc) {
+  options.noTimestamp = true
+}
 javadoc {
   exclude("org/plumelib/util/WeakIdentityHashMap.java")
+  // Turn Javadoc warnings into errors.
   options.addStringOption("Xwerror", "-Xdoclint:all")
   options.addStringOption("private", "-quiet")
   options.addStringOption("source", "11")
