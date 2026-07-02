@@ -352,8 +352,8 @@ public final class WeakHasherMap<K, V> extends AbstractMap<K, V> implements Map<
    *
    * @param key the key that is to be mapped to the given <code>value</code>
    * @param value the value to which the given <code>key</code> is to be mapped
-   * @return the previous value to which this key was mapped, or <code>null</code> if if there was
-   *     no mapping for the key
+   * @return the previous value to which this key was mapped, or <code>null</code> if there was no
+   *     mapping for the key
    */
   @Override
   public V put(K key, V value) {
