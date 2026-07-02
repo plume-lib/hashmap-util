@@ -1,4 +1,4 @@
-# Plume-lib Hashmap Util:  Utility libraries for Java HashMaps
+# Plume-lib HashMap Util:  Utility libraries for Java HashMaps
 
 See the [API documentation](http://plumelib.org/hashmap-util/api/org/plumelib/util/package-summary.html#package.description).
 

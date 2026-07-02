@@ -128,10 +128,10 @@ public class WeakIdentityHashMap<K, V> extends AbstractMap<K, V> implements Map<
    */
   private static final int MAXIMUM_CAPACITY = 1 << 30;
 
-  /** The load fast used when none specified in constructor. */
+  /** The load factor used when none specified in constructor. */
   private static final float DEFAULT_LOAD_FACTOR = 0.75f;
 
-  /** The table, resized as necessary. Length MUST Always be a power of two. */
+  /** The table, resized as necessary. Length MUST be a power of two. */
   private @Nullable Entry<K, V>[] table;
 
   /** The number of key-value mappings contained in this weak hash map. */
@@ -147,7 +147,7 @@ public class WeakIdentityHashMap<K, V> extends AbstractMap<K, V> implements Map<
   private final ReferenceQueue<K> queue = new ReferenceQueue<>();
 
   /**
-   * The number of times this HashMap has been structurally modified Structural modifications are
+   * The number of times this HashMap has been structurally modified. Structural modifications are
    * those that change the number of mappings in the HashMap or otherwise modify its internal
    * structure (e.g., rehash). This field is used to make iterators on Collection-views of the
    * HashMap fail-fast. (See ConcurrentModificationException).
@@ -472,7 +472,7 @@ public class WeakIdentityHashMap<K, V> extends AbstractMap<K, V> implements Map<
   }
 
   /**
-   * Copies all of the mappings from the specified map to this map These mappings will replace any
+   * Copies all of the mappings from the specified map to this map. These mappings will replace any
    * mappings that this map had for any of the keys currently in the specified map.
    *
    * @param m mappings to be stored in this map
@@ -484,12 +484,12 @@ public class WeakIdentityHashMap<K, V> extends AbstractMap<K, V> implements Map<
     if (numKeysToBeAdded == 0) return;
 
     /*
-     * Expand the map if the map if the number of mappings to be added
+     * Expand the map if the number of mappings to be added
      * is greater than or equal to threshold.  This is conservative; the
      * obvious condition is (m.size() + size) >= threshold, but this
      * condition could result in a map with twice the appropriate capacity,
      * if the keys to be added overlap with the keys already in this map.
-     * By using the conservative calculation, we subject ourself
+     * By using the conservative calculation, we subject ourselves
      * to at most one extra resize.
      */
     if (numKeysToBeAdded > threshold) {

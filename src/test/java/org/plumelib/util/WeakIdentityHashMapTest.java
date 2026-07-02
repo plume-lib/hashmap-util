@@ -8,7 +8,7 @@ public final class WeakIdentityHashMapTest {
 
   /**
    * These tests could be much more thorough. Basically all that is tested is that identity is used
-   * rather than a normal hash. The tests will fail however, if WeakHashMap is swapped for
+   * rather than a normal hash. The tests will fail, however, if WeakHashMap is swapped for
    * WeakIdentityHashMap.
    */
   @SuppressWarnings("PMD.StringInstantiation")
