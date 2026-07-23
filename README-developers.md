@@ -18,7 +18,7 @@ mavenCentralPassword=...
 
 Run these steps on any filesystem, except the `javadocWeb` step.
 
-* Make and test a snapshot release, see below.
+* Make and test a snapshot release; see below.
 * git pull
 * Update `CHANGELOG.md`.
 * Update the version number in `README.md`, `gradle.properties`, and
