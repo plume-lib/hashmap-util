@@ -15,10 +15,10 @@
  *       org.plumelib.util.WeakHasherMap WeakHasherMap}) that specifies the {@code hashCode()} and
  *       {@code equals()} methods.
  *   <dt>{@link org.plumelib.util.WeakHasherMap WeakHasherMap}
- *   <dd>{@code WeakHasherMap} is a modified version of {@code WeakHashMap}, that adds a constructor
+ *   <dd>{@code WeakHasherMap} is a modified version of {@code WeakHashMap} that adds a constructor
  *       that takes a {@link org.plumelib.util.Hasher Hasher} argument.
  *   <dt>{@link org.plumelib.util.WeakIdentityHashMap WeakIdentityHashMap}
- *   <dd>{@code WeakIdentityHashMap} is a modified version of {@code WeakHashMap}, that uses {@code
+ *   <dd>{@code WeakIdentityHashMap} is a modified version of {@code WeakHashMap} that uses {@code
  *       System.identityHashCode()} rather than the object's hash code.
  * </dl>
  */
