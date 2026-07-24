@@ -170,17 +170,6 @@ public final class WeakHasherMap<K, V> extends AbstractMap<K, V> implements Map<
     }
 
     /**
-     * create.
-     *
-     * @param k k
-     * @return return
-     */
-    private @Nullable WeakKey create(K k) {
-      if (k == null) return null;
-      else return new WeakKey(k);
-    }
-
-    /**
      * WeakKey.
      *
      * @param k k
@@ -189,18 +178,6 @@ public final class WeakHasherMap<K, V> extends AbstractMap<K, V> implements Map<
     private WeakKey(K k, ReferenceQueue<? super K> q) {
       super(k, q);
       hash = keyHashCode(k);
-    }
-
-    /**
-     * create.
-     *
-     * @param k k
-     * @param q q
-     * @return return
-     */
-    private @Nullable WeakKey create(K k, ReferenceQueue<? super K> q) {
-      if (k == null) return null;
-      else return new WeakKey(k, q);
     }
 
     /* A WeakKey is equal to another WeakKey iff they both refer to objects

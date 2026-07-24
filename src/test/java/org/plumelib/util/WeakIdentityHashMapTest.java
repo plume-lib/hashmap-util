@@ -1,6 +1,7 @@
 package org.plumelib.util;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.junit.jupiter.api.Test;
 
@@ -34,21 +35,22 @@ public final class WeakIdentityHashMapTest {
     m.put(s2a, 2);
     m.put(s3a, 3);
 
-    assertTrue(m.get(s1) == 1);
-    assertTrue(m.get(s2) == 2);
-    assertTrue(m.get(s3) == 3);
-    assertTrue(m.get(s1a) == 1);
-    assertTrue(m.get(s2a) == 2);
-    assertTrue(m.get(s3a) == 3);
+    assertEquals(Integer.valueOf(1), m.get(s1));
+    assertEquals(Integer.valueOf(2), m.get(s2));
+    assertEquals(Integer.valueOf(3), m.get(s3));
+    assertEquals(Integer.valueOf(1), m.get(s1a));
+    assertEquals(Integer.valueOf(2), m.get(s2a));
+    assertEquals(Integer.valueOf(3), m.get(s3a));
 
     m.remove(s1);
     m.remove(s2);
     m.remove(s3);
-    assertTrue(m.get(s1) == null);
-    assertTrue(m.get(s2) == null);
-    assertTrue(m.get(s3) == null);
-    assertTrue(m.get(s1a) == 1);
-    assertTrue(m.get(s2a) == 2);
-    assertTrue(m.get(s3a) == 3);
+    // Removing a key does not affect a distinct, identity-unequal key with equal contents.
+    assertNull(m.get(s1));
+    assertNull(m.get(s2));
+    assertNull(m.get(s3));
+    assertEquals(Integer.valueOf(1), m.get(s1a));
+    assertEquals(Integer.valueOf(2), m.get(s2a));
+    assertEquals(Integer.valueOf(3), m.get(s3a));
   }
 }
