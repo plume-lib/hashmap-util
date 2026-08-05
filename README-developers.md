@@ -29,7 +29,7 @@ Run these steps on any filesystem, except the `javadocWeb` step.
 * Add a git tag and commit:
 
   ```sh
-  VER=1.0.0 && \
+  VER=2.0.0 && \
   git commit -m "Version $VER" && git push && \
   git tag -a v$VER -m "Version $VER" && git push && git push --tags
   ```
@@ -37,7 +37,7 @@ Run these steps on any filesystem, except the `javadocWeb` step.
 * Make a GitHub release.
   * Browse to <https://github.com/plume-lib/hashmap-util/releases>
   * Click "draft a new release"
-  * Call it "hashmap-util 1.0.0"
+  * Call it "hashmap-util 2.0.0"
   * Use the text from `CHANGELOG.md` as the description
   * Attach the .jar and -all.jar files from `build/libs/`
   * Click "publish release"
