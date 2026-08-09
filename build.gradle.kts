@@ -100,6 +100,15 @@ if (testJavaVersionProperty != null && testJavaVersionProperty.isEmpty()) {
 val testJavaVersion =
   JavaLanguageVersion.of(testJavaVersionProperty ?: JavaVersion.current().majorVersion)
 
+val minimumTestJavaVersion = JavaLanguageVersion.of(21)
+
+if (testJavaVersion < minimumTestJavaVersion) {
+  throw GradleException(
+    "The tests require Java $minimumTestJavaVersion or later," +
+      " but -PtestJavaVersion requested Java $testJavaVersion."
+  )
+}
+
 tasks.withType<Test>().configureEach {
   javaLauncher = javaToolchains.launcherFor { languageVersion = testJavaVersion }
 

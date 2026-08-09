@@ -1,6 +1,6 @@
 # HashMap-Util change log
 
-## 9.9.9 (2026-08-??)
+## 2.1.0 (????-??-??)
 
 - Requires Java 21 to run.
 
