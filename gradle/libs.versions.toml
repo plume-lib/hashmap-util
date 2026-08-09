@@ -2,8 +2,7 @@
 
 checker-framework = "4.2.2"
 
-# 1.28.0 is the last version to support JDK 17.  But 1.28.0 doesn't work on JDK 27, it seems.
-google-java-format = "1.28.0"
+google-java-format = "1.36.1"
 
 jacoco = "0.8.15"
 

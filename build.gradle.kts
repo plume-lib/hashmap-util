@@ -66,7 +66,7 @@ java {
 }
 
 tasks.withType<JavaCompile>().configureEach {
-  options.release = 17
+  options.release = 21
 
   // Gradle compiles in a worker process whenever the toolchain above differs
   // from the JVM that runs Gradle.  That worker does not inherit the
@@ -82,11 +82,12 @@ tasks.withType<JavaCompile>().configureEach {
 // Compilation always uses Java 21, but the tests run under various Java versions.  The
 // `java.toolchain` setting above applies to Test tasks as well as to compilation, so without this
 // the tests would always run under Java 21.  By default the tests run under the JVM that Gradle
-// itself is running under.  The job matrix in .github/workflows/gradle.yml does not rely on that
-// default:  it runs Gradle under Java 21 in every job and selects the test JVM by passing
-// `-PtestJavaVersion`.
+// itself is running under.  The job matrix in .github/workflows/gradle.yml relies on that default:
+// each job installs one JDK from the matrix and runs a plain `./gradlew build`, so both Gradle and
+// the tests run under the matrix JDK.  Every matrix entry must therefore be at least the minimum
+// version that settings.gradle.kts enforces for the Gradle JVM.
 // Override with, for example:
-//   ./gradlew test -PtestJavaVersion=17
+//   ./gradlew test -PtestJavaVersion=26
 val testJavaVersionProperty = project.findProperty("testJavaVersion")?.toString()
 
 if (testJavaVersionProperty != null && testJavaVersionProperty.isEmpty()) {
@@ -98,6 +99,15 @@ if (testJavaVersionProperty != null && testJavaVersionProperty.isEmpty()) {
 
 val testJavaVersion =
   JavaLanguageVersion.of(testJavaVersionProperty ?: JavaVersion.current().majorVersion)
+
+val minimumTestJavaVersion = JavaLanguageVersion.of(21)
+
+if (testJavaVersion < minimumTestJavaVersion) {
+  throw GradleException(
+    "The tests require Java $minimumTestJavaVersion or later," +
+      " but -PtestJavaVersion requested Java $testJavaVersion."
+  )
+}
 
 tasks.withType<Test>().configureEach {
   javaLauncher = javaToolchains.launcherFor { languageVersion = testJavaVersion }
