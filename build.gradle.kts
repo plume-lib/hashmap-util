@@ -82,11 +82,12 @@ tasks.withType<JavaCompile>().configureEach {
 // Compilation always uses Java 21, but the tests run under various Java versions.  The
 // `java.toolchain` setting above applies to Test tasks as well as to compilation, so without this
 // the tests would always run under Java 21.  By default the tests run under the JVM that Gradle
-// itself is running under.  The job matrix in .github/workflows/gradle.yml does not rely on that
-// default:  it runs Gradle under Java 21 in every job and selects the test JVM by passing
-// `-PtestJavaVersion`.
+// itself is running under.  The job matrix in .github/workflows/gradle.yml relies on that default:
+// each job installs one JDK from the matrix and runs a plain `./gradlew build`, so both Gradle and
+// the tests run under the matrix JDK.  Every matrix entry must therefore be at least the minimum
+// version that settings.gradle.kts enforces for the Gradle JVM.
 // Override with, for example:
-//   ./gradlew test -PtestJavaVersion=21
+//   ./gradlew test -PtestJavaVersion=26
 val testJavaVersionProperty = project.findProperty("testJavaVersion")?.toString()
 
 if (testJavaVersionProperty != null && testJavaVersionProperty.isEmpty()) {
