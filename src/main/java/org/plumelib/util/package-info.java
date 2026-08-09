@@ -1,6 +1,4 @@
 /**
- *
- *
  * <h2>Plume-lib HashMap Util: Utility libraries for Java HashMaps</h2>
  *
  * <p>Note that <a
