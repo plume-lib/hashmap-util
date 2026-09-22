@@ -1,4 +1,4 @@
-# Plume-lib Hashmap Util:  Utility libraries for Java HashMaps
+# Plume-lib HashMap Util:  Utility libraries for Java HashMaps
 
 See the [API documentation](http://plumelib.org/hashmap-util/api/org/plumelib/util/package-summary.html#package.description).
 
@@ -11,8 +11,8 @@ In a Gradle buildfile, write
 
 ```gradle
 dependencies {
-  implementation("org.plumelib:hashmap-util:1.0.0")
+  implementation("org.plumelib:hashmap-util:2.0.0")
 }
 ```
 
-Other build systems are [similar](https://search.maven.org/artifact/org.plumelib/hashmap-util/1.0.0/jar).
+Other build systems are [similar](https://search.maven.org/artifact/org.plumelib/hashmap-util/2.0.0/jar).

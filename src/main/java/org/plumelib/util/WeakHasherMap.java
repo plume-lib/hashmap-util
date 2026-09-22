@@ -20,7 +20,7 @@ import org.checkerframework.dataflow.qual.SideEffectFree;
 // generic, among other advantages) because that implementation uses
 // various package-visible implementation details of java.util.
 /**
- * This is a modified version of {@link java.util.WeakHashMap} from JDK 1.2.2, that adds a
+ * This is a modified version of {@link java.util.WeakHashMap} from JDK 1.2.2 that adds a
  * constructor that takes a {@link Hasher} argument. I also replaced uses of {@code hashCode()} and
  * {@code equals()} by uses of {@link Hasher}, where appropriate. I've changed the name so that this
  * version is not used accidentally. It is slightly less efficient, in the absence of a {@link
@@ -170,17 +170,6 @@ public final class WeakHasherMap<K, V> extends AbstractMap<K, V> implements Map<
     }
 
     /**
-     * create.
-     *
-     * @param k k
-     * @return return
-     */
-    private @Nullable WeakKey create(K k) {
-      if (k == null) return null;
-      else return new WeakKey(k);
-    }
-
-    /**
      * WeakKey.
      *
      * @param k k
@@ -189,18 +178,6 @@ public final class WeakHasherMap<K, V> extends AbstractMap<K, V> implements Map<
     private WeakKey(K k, ReferenceQueue<? super K> q) {
       super(k, q);
       hash = keyHashCode(k);
-    }
-
-    /**
-     * create.
-     *
-     * @param k k
-     * @param q q
-     * @return return
-     */
-    private @Nullable WeakKey create(K k, ReferenceQueue<? super K> q) {
-      if (k == null) return null;
-      else return new WeakKey(k, q);
     }
 
     /* A WeakKey is equal to another WeakKey iff they both refer to objects
@@ -352,8 +329,8 @@ public final class WeakHasherMap<K, V> extends AbstractMap<K, V> implements Map<
    *
    * @param key the key that is to be mapped to the given <code>value</code>
    * @param value the value to which the given <code>key</code> is to be mapped
-   * @return the previous value to which this key was mapped, or <code>null</code> if if there was
-   *     no mapping for the key
+   * @return the previous value to which this key was mapped, or <code>null</code> if there was no
+   *     mapping for the key
    */
   @Override
   public V put(K key, V value) {
@@ -462,6 +439,8 @@ public final class WeakHasherMap<K, V> extends AbstractMap<K, V> implements Map<
      */
     @Pure
     @SuppressWarnings("NonOverridingEquals")
+    // TODO: This is dead code, since it is inside a private class. Why doesn't it override
+    // equals()?
     public boolean equals(Map.Entry<K, V> e /* Object o*/) {
       // if (! (o instanceof Map.Entry)) return false;
       // Map.Entry<K,V> e = (Map.Entry<K,V>)o;
