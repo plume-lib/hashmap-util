@@ -827,7 +827,7 @@ public class WeakIdentityHashMap<K, V> extends AbstractMap<K, V> implements Map<
     }
   }
 
-  transient volatile @Nullable Collection<V> our_values = null;
+  private transient volatile @Nullable Collection<V> our_values = null;
 
   /**
    * Returns a collection view of the values contained in this map. The collection is backed by the

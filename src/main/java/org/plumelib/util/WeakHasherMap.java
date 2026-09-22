@@ -439,6 +439,8 @@ public final class WeakHasherMap<K, V> extends AbstractMap<K, V> implements Map<
      */
     @Pure
     @SuppressWarnings("NonOverridingEquals")
+    // TODO: This is dead code, since it is inside a private class. Why doesn't it override
+    // equals()?
     public boolean equals(Map.Entry<K, V> e /* Object o*/) {
       // if (! (o instanceof Map.Entry)) return false;
       // Map.Entry<K,V> e = (Map.Entry<K,V>)o;
